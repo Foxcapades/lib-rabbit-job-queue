@@ -1,0 +1,42 @@
+= RabbitMQ Job Queue
+
+Client/server library for utilizing RabbitMQ as a job queue.
+
+== Usage
+
+=== Worker / Client
+
+.Java
+[source, java, lines]
+----
+var client = new QueueWorker(new QueueConfig());
+
+client.onJob(job -> {
+
+  // Do some work here.
+
+  if (success)
+    client.sendSuccess(new SuccessNotification(job.getJobID()));
+  else
+    client.sendError(new ErrorNotification(job.getJobID(), errorCode));
+});
+----
+
+.Kotlin
+[source, kotlin, lines]
+----
+val client = QueueWorker {}
+
+client.onJob {
+  // Do some work here.
+
+  if (success)
+    client.sendSuccess(SuccessNotification(job.jobID))
+  else
+    client.sendError(ErrorNotification(job.jobID, errorCode))
+}
+----
+
+=== Dispatcher / Server
+
+
