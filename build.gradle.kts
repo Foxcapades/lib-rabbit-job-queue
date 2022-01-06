@@ -65,17 +65,11 @@ tasks.register<Copy>("getDeps") {
   into("runtime/")
 }
 
-val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
-  dependsOn(tasks.dokkaJavadoc)
-  from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
-  archiveClassifier.set("javadoc")
-}
-
 publishing {
   repositories {
     maven {
       name = "GitHub"
-      url = uri("https://maven.pkg.github.com/VEuPathDB/maven-packages")
+      url = uri("https://maven.pkg.github.com/VEuPathDB/lib-rabbit-job-queue")
       credentials {
         username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
         password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
@@ -86,6 +80,7 @@ publishing {
   publications {
     create<MavenPublication>("gpr") {
       from(components["java"])
+
       pom {
         name.set("RabbitMQ Job Queue Library")
         description.set("Provides a worker and dispatcher for submitting jobs to a RabbitMQ queue.")
