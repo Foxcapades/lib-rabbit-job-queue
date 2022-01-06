@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -63,6 +64,13 @@ tasks.withType<KotlinCompile>().configureEach {
 tasks.register<Copy>("getDeps") {
   from(sourceSets["main"].runtimeClasspath)
   into("runtime/")
+}
+
+tasks.withType<DokkaTask>().configureEach {
+  dokkaSourceSets.configureEach {
+    includeNonPublic.set(false)
+    jdkVersion.set(17)
+  }
 }
 
 publishing {

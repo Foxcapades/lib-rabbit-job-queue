@@ -13,11 +13,16 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
  *
  * @constructor Constructs a new ErrorNotification instance.
  *
- * @param jobID   Hash ID of the job that failed.
- * @param code    Error/response code of the job failure.
+ * @param jobID
+ * Hash ID of the job that failed.
  *
- *                If the error has no associated code, set this value to `0`.
- * @param message Optional error message for the job failure.
+ * @param code
+ * Error/response code of the job failure.
+ *
+ * If the error has no associated code, set this value to `0`.
+ *
+ * @param message
+ * Optional error message for the job failure.
  */
 data class ErrorNotification @JvmOverloads constructor(
   val jobID:         HashID,

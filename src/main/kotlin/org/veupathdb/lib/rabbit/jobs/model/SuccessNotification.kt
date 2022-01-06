@@ -7,6 +7,15 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonDeserializable
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonKey
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
 
+/**
+ * Job Success Notification
+ *
+ * @constructor Constructs a new SuccessNotification instance wrapping the given
+ * job ID.
+ *
+ * @param jobID
+ * Hash ID of the job that completed successfully.
+ */
 data class SuccessNotification(val jobID: HashID) : JsonSerializable {
   override fun toJson() =
     Json.new<ObjectNode> {

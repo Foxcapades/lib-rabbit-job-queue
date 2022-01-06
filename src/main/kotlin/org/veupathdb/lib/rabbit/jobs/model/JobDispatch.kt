@@ -15,17 +15,22 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
  *
  * @constructor Constructs a new JobDispatch instance.
  *
- * @param jobID Hash ID of the job to execute.
- * @param type  Arbitrary type of the job payload.  Not used internally,
- *              intended to be used by the worker node.
+ * @param jobID
+ * Hash ID of the job to execute.
  *
- *              If no type value is needed, an empty string may be used.
- * @param body  Extra data for the job.  This value should not exceed 8kb in
- *              size when serialized to JSON.  If a greater size payload is
- *              needed consider using an external means to grant the worker
- *              access, such as the filesystem or a database.
+ * @param type
+ * Arbitrary type of the job payload.  Not used internally, intended to be used
+ * by the worker node.
  *
- *              If no body is needed, this value may be null.
+ * If no type value is needed, an empty string may be used.
+ *
+ * @param body
+ * Extra data for the job.  This value should not exceed 8kb in size when
+ * serialized to JSON.  If a greater size payload is needed consider using an
+ * external means to grant the worker access, such as the filesystem or a
+ * database.
+ *
+ * If no body is needed, this value may be null.
  */
 data class JobDispatch(
   val jobID:   HashID,
