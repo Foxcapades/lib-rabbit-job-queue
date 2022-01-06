@@ -8,6 +8,9 @@ import java.nio.charset.StandardCharsets
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+/**
+ * Base implementation of a queue worker or dispatcher.
+ */
 sealed class QueueWrapper {
   /**
    * RabbitMQ Connection Factory
@@ -34,17 +37,17 @@ sealed class QueueWrapper {
   /**
    * Job Dispatch Queue Name
    */
-  protected open val dispatchQueueName: String = "jobs"
+  protected val dispatchQueueName: String
 
   /**
    * Job Error Queue Name
    */
-  protected open val errorQueueName: String = "errors"
+  protected val errorQueueName: String
 
   /**
    * Job Success Queue Name
    */
-  protected open val successQueueName: String = "successes"
+  protected val successQueueName: String
 
   /**
    * Constructs a new QueueWrapper implementation instance.
@@ -55,6 +58,10 @@ sealed class QueueWrapper {
     configure(config)
     connection = factory.newConnection()
     workers    = Executors.newFixedThreadPool(config.workers)
+
+    dispatchQueueName = config.jobQueueName
+    errorQueueName    = config.errorQueueName
+    successQueueName  = config.successQueueName
 
     @Suppress("LeakingThis")
     initCallbacks()
@@ -72,6 +79,10 @@ sealed class QueueWrapper {
     configure(tmp)
     connection = factory.newConnection()
     workers    = Executors.newFixedThreadPool(tmp.workers)
+
+    dispatchQueueName = tmp.jobQueueName
+    errorQueueName    = tmp.errorQueueName
+    successQueueName  = tmp.successQueueName
 
     @Suppress("LeakingThis")
     initCallbacks()

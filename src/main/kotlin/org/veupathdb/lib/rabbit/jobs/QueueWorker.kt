@@ -9,11 +9,25 @@ import org.veupathdb.lib.rabbit.jobs.model.SuccessNotification
 import org.veupathdb.lib.rabbit.jobs.pools.JobHandlers
 import org.veupathdb.lib.rabbit.jobs.serialization.Json
 
+/**
+ * Job executor end of the job queue.
+ */
 class QueueWorker : QueueWrapper {
   private val handlers = JobHandlers()
 
+  /**
+   * Instantiates a new QueueWorker based on the given configuration.
+   *
+   * @param config Configuration for the RabbitMQ connections.
+   */
   constructor(config: QueueConfig): super(config)
 
+  /**
+   * Instantiates a new QueueWorker using the given action to configure the
+   * RabbitMQ connections.
+   *
+   * @param action Action used to configure the RabbitMQ connections.
+   */
   constructor(action: QueueConfig.() -> Unit): super(action)
 
   /**
@@ -46,6 +60,9 @@ class QueueWorker : QueueWrapper {
     withSuccessQueue { publish(successQueueName, msg) }
   }
 
+  /**
+   * Initializes the job queue callback.
+   */
   override fun initCallbacks() {
     withDispatchQueue {
       basicConsume(
