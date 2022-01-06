@@ -152,6 +152,12 @@ sealed class QueueWrapper {
       action()
     }
 
+  /**
+   * Publishes a message to the given [Channel].
+   *
+   * @param queue Name of the queue to publish the message to.
+   * @param body  Body of the message to publish.
+   */
   protected fun Channel.publish(queue: String, body: JsonSerializable) {
     basicPublish(
       "",
@@ -161,6 +167,9 @@ sealed class QueueWrapper {
     )
   }
 
+  /**
+   * Initialize queue callbacks.
+   */
   protected abstract fun initCallbacks()
 
   /**
