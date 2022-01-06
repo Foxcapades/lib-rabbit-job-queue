@@ -14,7 +14,7 @@ end-to-end:
 
 .PHONY: docs
 docs:
-	@mkdir -p docs
 	@./gradlew dokkaHtml
-	@rm -rf docs/*
+	@rm -rf docs/dokka
 	@cp -r build/dokka/html docs/dokka
+	@cp docs/logo-styles.css docs/dokka/styles/logo-styles.css

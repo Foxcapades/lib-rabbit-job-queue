@@ -67,6 +67,8 @@ tasks.register<Copy>("getDeps") {
 }
 
 tasks.withType<DokkaTask>().configureEach {
+
+
   dokkaSourceSets.configureEach {
     includeNonPublic.set(false)
     jdkVersion.set(17)
