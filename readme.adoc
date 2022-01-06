@@ -1,5 +1,8 @@
 = RabbitMQ Job Queue
 
+image:https://img.shields.io/github/v/release/VEuPathDB/lib-rabbit-job-queue[GitHub release (latest by date)]
+image:https://img.shields.io/badge/docs-dokka-orange[Docs, link="https://veupathdb.github.io/lib-rabbit-job-queue/dokka/"]
+
 Client/server library for utilizing RabbitMQ as a job queue.
 
 == Usage
