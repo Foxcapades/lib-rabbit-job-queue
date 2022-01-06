@@ -11,3 +11,10 @@ end-to-end:
 		--build-arg=GITHUB_USERNAME=$(shell grep 'gpr.user' ~/.gradle/gradle.properties | cut -d= -f2) \
 		--build-arg=GITHUB_TOKEN=$(shell grep 'gpr.key' ~/.gradle/gradle.properties | cut -d= -f2)
 	@docker-compose -f test/docker-compose.yml up | grep --color=always -v rabbit_1
+
+.PHONY: docs
+docs:
+	@mkdir -p docs
+	@./gradlew dokkaHtml
+	@rm -rf docs/*
+	@cp -r build/dokka/html docs/dokka

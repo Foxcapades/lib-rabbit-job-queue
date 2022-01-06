@@ -1,0 +1,78 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn////PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/ErrorHandler///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-error-handler/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/ErrorHandler/handle/#org.veupathdb.lib.rabbit.jobs.model.ErrorNotification/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-error-handler/handle.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/JobHandler///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-job-handler/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/JobHandler/handle/#org.veupathdb.lib.rabbit.jobs.model.JobDispatch/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-job-handler/handle.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/SuccessHandler///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-success-handler/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.fn/SuccessHandler/handle/#org.veupathdb.lib.rabbit.jobs.model.SuccessNotification/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.fn/-success-handler/handle.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model////PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification.Companion///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/-companion/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification.Companion/fromJson/#com.fasterxml.jackson.databind.node.ObjectNode/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/-companion/from-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/ErrorNotification/#org.veupathdb.lib.hash_id.HashID#kotlin.Int#kotlin.String?/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/-error-notification.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/code/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/code.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/jobID/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/job-i-d.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/message/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/message.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/toJson/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/to-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/ErrorNotification/toString/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-error-notification/to-string.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch.Companion///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/-companion/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch.Companion/fromJson/#com.fasterxml.jackson.databind.node.ObjectNode/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/-companion/from-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/JobDispatch/#org.veupathdb.lib.hash_id.HashID#kotlin.String#com.fasterxml.jackson.databind.JsonNode?/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/-job-dispatch.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/body/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/body.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/jobID/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/job-i-d.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/toJson/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/to-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/toString/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/to-string.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/JobDispatch/type/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-job-dispatch/type.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification.Companion///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/-companion/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification.Companion/fromJson/#com.fasterxml.jackson.databind.node.ObjectNode/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/-companion/from-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification/SuccessNotification/#org.veupathdb.lib.hash_id.HashID/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/-success-notification.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification/jobID/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/job-i-d.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification/toJson/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/to-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.model/SuccessNotification/toString/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.model/-success-notification/to-string.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.serialization////PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.serialization/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.serialization/JsonDeserializable///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.serialization/-json-deserializable/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.serialization/JsonDeserializable/fromJson/#TypeParam(bounds=[com.fasterxml.jackson.databind.JsonNode])/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.serialization/-json-deserializable/from-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.serialization/JsonSerializable///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.serialization/-json-serializable/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs.serialization/JsonSerializable/toJson/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs.serialization/-json-serializable/to-json.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs////PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/QueueConfig/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/-queue-config.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/errorQueueName/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/error-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/errorQueueName/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/error-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/hostPort/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/host-port.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/hostPort/#kotlin.Int/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/host-port.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/hostname/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/hostname.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/hostname/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/hostname.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/jobQueueName/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/job-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/jobQueueName/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/job-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/password/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/password.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/password/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/password.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/successQueueName/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/success-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/successQueueName/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/success-queue-name.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/timeout/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/timeout.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/timeout/#kotlin.Int/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/timeout.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/username/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/username.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/username/#kotlin.String/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/username.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueConfig/workers/#/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-config/workers.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher/QueueDispatcher/#kotlin.Function1[org.veupathdb.lib.rabbit.jobs.QueueConfig,kotlin.Unit]/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/-queue-dispatcher.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher/QueueDispatcher/#org.veupathdb.lib.rabbit.jobs.QueueConfig/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/-queue-dispatcher.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher/dispatch/#org.veupathdb.lib.rabbit.jobs.model.JobDispatch/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/dispatch.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher/onError/#org.veupathdb.lib.rabbit.jobs.fn.ErrorHandler/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/on-error.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueDispatcher/onSuccess/#org.veupathdb.lib.rabbit.jobs.fn.SuccessHandler/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-dispatcher/on-success.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/index.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker/QueueWorker/#kotlin.Function1[org.veupathdb.lib.rabbit.jobs.QueueConfig,kotlin.Unit]/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/-queue-worker.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker/QueueWorker/#org.veupathdb.lib.rabbit.jobs.QueueConfig/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/-queue-worker.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker/onJob/#org.veupathdb.lib.rabbit.jobs.fn.JobHandler/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/on-job.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker/sendError/#org.veupathdb.lib.rabbit.jobs.model.ErrorNotification/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/send-error.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWorker/sendSuccess/#org.veupathdb.lib.rabbit.jobs.model.SuccessNotification/PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-worker/send-success.html
+$dokka.location:org.veupathdb.lib.rabbit.jobs/QueueWrapper///PointingToDeclaration/rabbit-job-queue/org.veupathdb.lib.rabbit.jobs/-queue-wrapper/index.html
+org.veupathdb.lib.rabbit.jobs
+org.veupathdb.lib.rabbit.jobs.fn
+org.veupathdb.lib.rabbit.jobs.model
+org.veupathdb.lib.rabbit.jobs.serialization
+
