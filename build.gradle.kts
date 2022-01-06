@@ -2,7 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   `java-library`
+  `maven-publish`
   kotlin("jvm") version "1.6.10"
+  id("org.jetbrains.dokka") version "1.6.10"
 }
 
 group = "org.veupathdb.lib"
@@ -46,6 +48,10 @@ kotlin {
   }
 }
 
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
 
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
@@ -57,4 +63,48 @@ tasks.withType<KotlinCompile>().configureEach {
 tasks.register<Copy>("getDeps") {
   from(sourceSets["main"].runtimeClasspath)
   into("runtime/")
+}
+
+val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
+  dependsOn(tasks.dokkaJavadoc)
+  from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
+  archiveClassifier.set("javadoc")
+}
+
+publishing {
+  repositories {
+    maven {
+      name = "GitHub"
+      url = uri("https://maven.pkg.github.com/VEuPathDB/maven-packages")
+      credentials {
+        username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+        password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+      }
+    }
+  }
+
+  publications {
+    create<MavenPublication>("gpr") {
+      from(components["java"])
+      pom {
+        name.set("RabbitMQ Job Queue Library")
+        description.set("Provides a worker and dispatcher for submitting jobs to a RabbitMQ queue.")
+        url.set("https://github.com/VEuPathDB/lib-rabbit-job-queue")
+        developers {
+          developer {
+            id.set("epharper")
+            name.set("Elizabeth Paige Harper")
+            email.set("epharper@upenn.edu")
+            url.set("https://github.com/foxcapades")
+            organization.set("VEuPathDB")
+          }
+        }
+        scm {
+          connection.set("scm:git:git://github.com/VEuPathDB/lib-rabbit-job-queue.git")
+          developerConnection.set("scm:git:ssh://github.com/VEuPathDB/lib-rabbit-job-queue.git")
+          url.set("https://github.com/VEuPathDB/lib-rabbit-job-queue")
+        }
+      }
+    }
+  }
 }
