@@ -4,6 +4,12 @@ Client/server library for utilizing RabbitMQ as a job queue.
 
 == Usage
 
+.Gradle
+[source, kotlin]
+----
+  implementation("org.veupathdb.lib:rabbit-job-queue:1.0.0")
+----
+
 === Worker / Client
 
 .Java
@@ -31,12 +37,50 @@ client.onJob {
   // Do some work here.
 
   if (success)
-    client.sendSuccess(SuccessNotification(job.jobID))
+    client.sendSuccess(SuccessNotification(it.jobID))
   else
-    client.sendError(ErrorNotification(job.jobID, errorCode))
+    client.sendError(ErrorNotification(it.jobID, errorCode))
 }
 ----
 
 === Dispatcher / Server
 
+.Java
+[source, java, lines]
+----
+var dispatch = new QueueDispatcher(new QueueConfig());
 
+dispatch.onSuccess(msg -> {
+  // Do something with the job success
+});
+
+dispatch.onError(err -> {
+  // Do something with the job error
+});
+
+dispatch.dispatch(new JobDispatch(
+  someJobID,
+  "jobType",
+  body
+));
+----
+
+.Kotlin
+[source, kotlin, lines]
+----
+val dispatch = QueueDispatcher {}
+
+dispatch.onSuccess {
+  // Do something with the job success
+}
+
+dispatch.onError {
+  // Do something with the job error
+}
+
+dispatch.dispatch(JobDispatch(
+  someJobID,
+  "jobType",
+  body
+))
+----
