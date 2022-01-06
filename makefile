@@ -1,6 +1,3 @@
-PROTOC_VERSION = "3.19.1"
-PROTOC_URL := "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
-
 .PHONY: nothing
 nothing:
 	@echo "Pick a target"
