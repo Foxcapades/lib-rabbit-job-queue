@@ -7,6 +7,8 @@ import org.veupathdb.lib.rabbit.jobs.serialization.Json
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonDeserializable
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonKey
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Job Request/Dispatch
@@ -34,13 +36,15 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
  */
 data class JobDispatch(
   val jobID:   HashID,
-  val type:    String,
-  val body:    JsonNode?,
+  val body:    JsonNode? = null,
+  val type:    String = "",
+  val dispatched: OffsetDateTime = OffsetDateTime.now()
 ) :  JsonSerializable {
   override fun toJson() =
     Json.new<ObjectNode> {
       put(JsonKey.JobID, jobID.string)
       put(JsonKey.Type, type)
+      put(JsonKey.Dispatched, dispatched.toString())
       putPOJO(JsonKey.Body, body)
     }
 
@@ -50,27 +54,38 @@ data class JobDispatch(
   companion object : JsonDeserializable<ObjectNode, JobDispatch> {
     @JvmStatic
     override fun fromJson(json: ObjectNode): JobDispatch {
+
+      // Fields must be present
       if (!json.has(JsonKey.JobID))
         throw IllegalStateException("Job dispatch has no ${JsonKey.JobID} field!")
       if (!json.has(JsonKey.Type))
         throw IllegalStateException("Job dispatch has no ${JsonKey.Type} field!")
       if (!json.has(JsonKey.Body))
         throw IllegalStateException("Job dispatch has no ${JsonKey.Body} field!")
+      if (!json.has(JsonKey.Dispatched))
+        throw IllegalStateException("Job dispatch has no ${JsonKey.Dispatched} field!")
 
+      // Only body field may be null
       if (json.get(JsonKey.JobID).isNull)
         throw IllegalStateException("Job dispatch has a null ${JsonKey.JobID} field!")
       if (json.get(JsonKey.Type).isNull)
         throw IllegalStateException("Job dispatch has a null ${JsonKey.Type} field!")
+      if (json.get(JsonKey.Dispatched).isNull)
+        throw IllegalStateException("Job dispatch has a null ${JsonKey.Dispatched} field!")
 
+      // Fields must be the correct type
       if (!json.get(JsonKey.JobID).isTextual)
         throw IllegalStateException("Job dispatch has a non-textual ${JsonKey.JobID} field!")
       if (!json.get(JsonKey.Type).isTextual)
         throw IllegalStateException("Job dispatch has a non-textual ${JsonKey.Type} field!")
+      if (!json.get(JsonKey.Dispatched).isTextual)
+        throw IllegalStateException("Job dispatch has a non-textual ${JsonKey.Dispatched} field!")
 
       return JobDispatch(
         HashID(json.get(JsonKey.JobID).textValue()),
+        json.get(JsonKey.Body),
         json.get(JsonKey.Type).textValue(),
-        json.get(JsonKey.Body)
+        OffsetDateTime.parse(json.get(JsonKey.Dispatched).textValue())
       )
     }
   }
