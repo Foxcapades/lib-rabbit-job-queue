@@ -21,7 +21,7 @@ fun main() {
 
   conFac.dispatch(JobDispatch(
     HashID("01020304050607080102030405060708"),
+    TextNode("foo"),
     "something",
-    TextNode("foo")
   ))
 }
