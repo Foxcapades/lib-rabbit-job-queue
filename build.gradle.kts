@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.veupathdb.lib"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
   mavenCentral()
@@ -35,11 +35,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
   implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3")
 
-  // Logging
-  implementation("org.apache.logging.log4j:log4j-core:2.17.2")
-  implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.2")
-
-  implementation("org.veupathdb.lib:hash-id:1.0.2")
+  api("org.veupathdb.lib:hash-id:1.0.2")
   implementation("com.rabbitmq:amqp-client:5.14.2")
 }
 
