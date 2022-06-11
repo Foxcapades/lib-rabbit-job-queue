@@ -2,6 +2,7 @@ package org.veupathdb.lib.rabbit.jobs
 
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.DeliverCallback
+import org.slf4j.LoggerFactory
 import org.veupathdb.lib.rabbit.jobs.fn.ErrorHandler
 import org.veupathdb.lib.rabbit.jobs.fn.SuccessHandler
 import org.veupathdb.lib.rabbit.jobs.model.ErrorNotification
@@ -15,6 +16,9 @@ import org.veupathdb.lib.rabbit.jobs.serialization.Json
  * Job dispatcher.
  */
 class QueueDispatcher : QueueWrapper {
+
+  private val Log = LoggerFactory.getLogger(javaClass)
+
   private val errorHandlers = ErrorHandlers()
 
   private val successHandlers = SuccessHandlers()
@@ -29,6 +33,7 @@ class QueueDispatcher : QueueWrapper {
    * @param fn Success callback.
    */
   fun onSuccess(fn: SuccessHandler) {
+    Log.debug("registering success handler {}", fn)
     successHandlers.register(fn)
   }
 
@@ -38,6 +43,7 @@ class QueueDispatcher : QueueWrapper {
    * @param fn Error callback.
    */
   fun onError(fn: ErrorHandler) {
+    Log.debug("registering error handler {}", fn)
     errorHandlers.register(fn)
   }
 
@@ -47,6 +53,7 @@ class QueueDispatcher : QueueWrapper {
    * @param job Job definition.
    */
   fun dispatch(job: JobDispatch) {
+    Log.debug("dispatching job {}", job)
     withDispatchQueue { publish(dispatchQueueName, job) }
   }
 
@@ -56,8 +63,14 @@ class QueueDispatcher : QueueWrapper {
         errorQueueName,
         false,
         DeliverCallback { _, msg ->
+          Log.debug("handling error message {}", msg.envelope.deliveryTag)
           workers.execute {
-            errorHandlers.execute(ErrorNotification.fromJson(Json.from(msg.body)))
+            try {
+              errorHandlers.execute(ErrorNotification.fromJson(Json.from(msg.body)))
+            } finally {
+              Log.debug("acknowledging error message {}", msg.envelope.deliveryTag)
+              basicAck(msg.envelope.deliveryTag, false)
+            }
           }
         },
         CancelCallback { }
@@ -69,8 +82,14 @@ class QueueDispatcher : QueueWrapper {
         successQueueName,
         false,
         DeliverCallback { _, msg ->
+          Log.debug("handling success message {}", msg.envelope.deliveryTag)
           workers.execute {
-            successHandlers.execute(SuccessNotification.fromJson(Json.from(msg.body)))
+            try {
+              successHandlers.execute(SuccessNotification.fromJson(Json.from(msg.body)))
+            } finally {
+              Log.debug("acknowledging success message {}", msg.envelope.deliveryTag)
+              basicAck(msg.envelope.deliveryTag, false)
+            }
           }
         },
         CancelCallback { }

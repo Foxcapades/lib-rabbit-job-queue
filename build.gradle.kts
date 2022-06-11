@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.veupathdb.lib"
-version = "1.1.1"
+version = "1.2.0"
 
 repositories {
   mavenCentral()
@@ -26,6 +26,8 @@ repositories {
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("stdlib-jdk8"))
+
+  implementation("org.slf4j:slf4j-api:1.7.36")
 
   // Jackson and modules (gotta catch em all)
   implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")

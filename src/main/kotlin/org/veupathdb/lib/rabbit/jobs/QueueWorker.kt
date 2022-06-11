@@ -2,6 +2,7 @@ package org.veupathdb.lib.rabbit.jobs
 
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.DeliverCallback
+import org.slf4j.LoggerFactory
 import org.veupathdb.lib.rabbit.jobs.fn.JobHandler
 import org.veupathdb.lib.rabbit.jobs.model.ErrorNotification
 import org.veupathdb.lib.rabbit.jobs.model.JobDispatch
@@ -13,6 +14,9 @@ import org.veupathdb.lib.rabbit.jobs.serialization.Json
  * Job executor end of the job queue.
  */
 class QueueWorker : QueueWrapper {
+
+  private val Log = LoggerFactory.getLogger(javaClass)
+
   private val handlers = JobHandlers()
 
   /**
@@ -37,6 +41,7 @@ class QueueWorker : QueueWrapper {
    * @param fn Job request callback.
    */
   fun onJob(fn: JobHandler) {
+    Log.debug("registering job handler {}", fn)
     handlers.register(fn)
   }
 
@@ -47,6 +52,7 @@ class QueueWorker : QueueWrapper {
    * @param err Error notification to send.
    */
   fun sendError(err: ErrorNotification) {
+    Log.debug("sending error notification {}", err)
     withErrorQueue { publish(errorQueueName, err) }
   }
 
@@ -57,6 +63,7 @@ class QueueWorker : QueueWrapper {
    * @param msg Success notification to send.
    */
   fun sendSuccess(msg: SuccessNotification) {
+    Log.debug("sending success notification {}", msg)
     withSuccessQueue { publish(successQueueName, msg) }
   }
 
@@ -67,10 +74,16 @@ class QueueWorker : QueueWrapper {
     withDispatchQueue {
       basicConsume(
         dispatchQueueName,
-        true,
+        false,
         DeliverCallback { _, msg ->
+          Log.debug("handling job message {}", msg.envelope.deliveryTag)
           workers.execute {
-            handlers.execute(JobDispatch.fromJson(Json.from(msg.body)))
+            try {
+              handlers.execute(JobDispatch.fromJson(Json.from(msg.body)))
+            } finally {
+              Log.debug("acknowledging job message {}", msg.envelope.deliveryTag)
+              basicAck(msg.envelope.deliveryTag, false)
+            }
           }
         },
         CancelCallback { }
