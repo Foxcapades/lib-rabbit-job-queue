@@ -26,7 +26,7 @@ dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("stdlib-jdk8"))
   implementation(rootProject)
-  implementation("org.veupathdb.lib:hash-id:1.0.2")
+  implementation("org.veupathdb.lib:hash-id:1.1.0")
   implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
 }
 
