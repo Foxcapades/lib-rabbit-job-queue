@@ -37,7 +37,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
   implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3")
 
-  api("org.veupathdb.lib:hash-id:1.0.2")
+  api("org.veupathdb.lib:hash-id:1.1.0")
   implementation("com.rabbitmq:amqp-client:5.14.2")
 }
 
