@@ -1,5 +1,6 @@
 @file:JvmName("Main")
 
+import com.fasterxml.jackson.databind.node.TextNode
 import org.veupathdb.lib.hash_id.HashID
 import org.veupathdb.lib.rabbit.jobs.QueueWorker
 import org.veupathdb.lib.rabbit.jobs.model.ErrorNotification
@@ -17,5 +18,5 @@ fun main() {
   }
 
   conFac.sendSuccess(SuccessNotification(HashID("0102030405060708090A0B0C0D0E0F10")))
-  conFac.sendError(ErrorNotification(HashID("0102030405060708090A0B0C0D0E0F10"), 123, "butts"))
+  conFac.sendError(ErrorNotification(HashID("0102030405060708090A0B0C0D0E0F10"), 123, 0,"butts", TextNode("body")))
 }

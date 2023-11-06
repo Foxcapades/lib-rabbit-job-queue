@@ -8,7 +8,6 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonDeserializable
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonKey
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
 import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * Job Request/Dispatch
@@ -38,6 +37,7 @@ data class JobDispatch(
   val jobID:   HashID,
   val body:    JsonNode? = null,
   val type:    String = "",
+  val attemptCount: Int = 0,
   val dispatched: OffsetDateTime = OffsetDateTime.now()
 ) :  JsonSerializable {
   override fun toJson() =
@@ -45,6 +45,7 @@ data class JobDispatch(
       put(JsonKey.JobID, jobID.string)
       put(JsonKey.Type, type)
       put(JsonKey.Dispatched, dispatched.toString())
+      put(JsonKey.AttemptCount, attemptCount.toString())
       putPOJO(JsonKey.Body, body)
     }
 
@@ -64,6 +65,8 @@ data class JobDispatch(
         throw IllegalStateException("Job dispatch has no ${JsonKey.Body} field!")
       if (!json.has(JsonKey.Dispatched))
         throw IllegalStateException("Job dispatch has no ${JsonKey.Dispatched} field!")
+      if (!json.has(JsonKey.AttemptCount))
+        throw IllegalStateException("Job dispatch has no ${JsonKey.AttemptCount} field!")
 
       // Only body field may be null
       if (json.get(JsonKey.JobID).isNull)
@@ -72,6 +75,8 @@ data class JobDispatch(
         throw IllegalStateException("Job dispatch has a null ${JsonKey.Type} field!")
       if (json.get(JsonKey.Dispatched).isNull)
         throw IllegalStateException("Job dispatch has a null ${JsonKey.Dispatched} field!")
+      if (json.get(JsonKey.AttemptCount).isNull)
+        throw IllegalStateException("Job dispatch has a null ${JsonKey.AttemptCount} field!")
 
       // Fields must be the correct type
       if (!json.get(JsonKey.JobID).isTextual)
@@ -80,12 +85,15 @@ data class JobDispatch(
         throw IllegalStateException("Job dispatch has a non-textual ${JsonKey.Type} field!")
       if (!json.get(JsonKey.Dispatched).isTextual)
         throw IllegalStateException("Job dispatch has a non-textual ${JsonKey.Dispatched} field!")
+      if (!json.get(JsonKey.AttemptCount).isInt)
+        throw IllegalStateException("Job dispatch has a non-int ${JsonKey.AttemptCount} field!")
 
       return JobDispatch(
-        HashID(json.get(JsonKey.JobID).textValue()),
-        json.get(JsonKey.Body),
-        json.get(JsonKey.Type).textValue(),
-        OffsetDateTime.parse(json.get(JsonKey.Dispatched).textValue())
+        jobID = HashID(json.get(JsonKey.JobID).textValue()),
+        body = json.get(JsonKey.Body),
+        type = json.get(JsonKey.Type).textValue(),
+        dispatched = OffsetDateTime.parse(json.get(JsonKey.Dispatched).textValue()),
+        attemptCount = json.get(JsonKey.AttemptCount).intValue()
       )
     }
   }
