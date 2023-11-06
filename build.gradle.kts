@@ -4,12 +4,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.6.10"
-  id("org.jetbrains.dokka") version "1.6.10"
+  kotlin("jvm") version "1.9.20"
+  id("org.jetbrains.dokka") version "1.9.10"
 }
 
 group = "org.veupathdb.lib"
-version = "1.2.0"
+version = "1.2.1"
 
 repositories {
   mavenCentral()
@@ -30,15 +30,15 @@ dependencies {
   implementation("org.slf4j:slf4j-api:1.7.36")
 
   // Jackson and modules (gotta catch em all)
-  implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.13.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.3")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
-  implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3")
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.15.3")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.3")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.3")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
+  implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.3")
 
   api("org.veupathdb.lib:hash-id:1.1.0")
-  implementation("com.rabbitmq:amqp-client:5.14.2")
+  implementation("com.rabbitmq:amqp-client:5.20.0")
 }
 
 kotlin {
