@@ -27,7 +27,7 @@ import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
 data class ErrorNotification @JvmOverloads constructor(
   val jobID:         HashID,
   val code:          Int,
-  val attemptCount:  Int? = 0,
+  val attemptCount:  Int = 0,
   val message:       String? = null,
   val body:          JsonNode? = null,
 ) : JsonSerializable {
@@ -52,6 +52,8 @@ data class ErrorNotification @JvmOverloads constructor(
         throw IllegalStateException("Error notification has no ${JsonKey.Code} field!")
       if (!json.has(JsonKey.Body))
         throw IllegalStateException("Error notification has no ${JsonKey.Body} field!")
+      if (!json.has(JsonKey.AttemptCount))
+        throw IllegalStateException("Error notification has no ${JsonKey.AttemptCount} field!")
 
       if (json.get(JsonKey.JobID).isNull)
         throw IllegalStateException("Error notification has a null ${JsonKey.JobID} field!")
@@ -59,11 +61,15 @@ data class ErrorNotification @JvmOverloads constructor(
         throw IllegalStateException("Error notification has a null ${JsonKey.Code} field!")
       if (json.get(JsonKey.Body).isNull)
         throw IllegalStateException("Error notification has a null ${JsonKey.Body} field!")
+      if (json.get(JsonKey.AttemptCount).isNull)
+        throw IllegalStateException("Error notification has a null ${JsonKey.AttemptCount} field!")
 
       if (!json.get(JsonKey.JobID).isTextual)
         throw IllegalStateException("Error notification has a non-textual ${JsonKey.JobID} field!")
       if (!json.get(JsonKey.Code).isIntegralNumber)
         throw IllegalStateException("Error notification has a non-integral ${JsonKey.Code} field!")
+      if (!json.get(JsonKey.AttemptCount).isIntegralNumber)
+        throw IllegalStateException("Error notification has a non-integral ${JsonKey.AttemptCount} field!")
 
       return ErrorNotification(
         jobID = HashID(json.get(JsonKey.JobID).textValue()),
