@@ -45,7 +45,7 @@ data class JobDispatch(
       put(JsonKey.JobID, jobID.string)
       put(JsonKey.Type, type)
       put(JsonKey.Dispatched, dispatched.toString())
-      put(JsonKey.AttemptCount, attemptCount.toString())
+      put(JsonKey.AttemptCount, attemptCount)
       putPOJO(JsonKey.Body, body)
     }
 
