@@ -7,4 +7,5 @@ internal object JsonKey {
   const val Message    = "message"
   const val Type       = "type"
   const val Dispatched = "dispatched"
+  const val AttemptCount = "attemptCount"
 }
