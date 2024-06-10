@@ -63,12 +63,12 @@ class QueueDispatcher : QueueWrapper {
         errorQueueName,
         false,
         DeliverCallback { _, msg ->
-          Log.debug("handling error message {}", msg.envelope.deliveryTag)
+          Log.debug("handling error message with delivery tag {}", msg.envelope.deliveryTag)
           workers.execute {
             try {
               errorHandlers.execute(ErrorNotification.fromJson(Json.from(msg.body)))
             } finally {
-              Log.debug("acknowledging error message {}", msg.envelope.deliveryTag)
+              Log.debug("acknowledging error message with delivery tag {}", msg.envelope.deliveryTag)
               basicAck(msg.envelope.deliveryTag, false)
             }
           }
@@ -82,12 +82,12 @@ class QueueDispatcher : QueueWrapper {
         successQueueName,
         false,
         DeliverCallback { _, msg ->
-          Log.debug("handling success message {}", msg.envelope.deliveryTag)
+          Log.debug("handling success message with delivery tag {}", msg.envelope.deliveryTag)
           workers.execute {
             try {
               successHandlers.execute(SuccessNotification.fromJson(Json.from(msg.body)))
             } finally {
-              Log.debug("acknowledging success message {}", msg.envelope.deliveryTag)
+              Log.debug("acknowledging success message with delivery tag {}", msg.envelope.deliveryTag)
               basicAck(msg.envelope.deliveryTag, false)
             }
           }

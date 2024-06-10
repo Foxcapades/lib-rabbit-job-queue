@@ -1,5 +1,7 @@
 package org.veupathdb.lib.rabbit.jobs
 
+import java.time.Duration
+
 /**
  * RabbitMQ Queue Configuration
  */
@@ -50,6 +52,11 @@ class QueueConfig {
    * Number of worker threads used to handle incoming messages.
    */
   var workers = 5
+
+  /**
+   * Maximum amount of time a task can take before timing out.
+   */
+  var taskTimeoutSeconds = Duration.ofMinutes(20).toSeconds()
 
   /**
    * Configures the RabbitMQ hostname.
