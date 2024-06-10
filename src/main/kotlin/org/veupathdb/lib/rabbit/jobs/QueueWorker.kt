@@ -96,7 +96,6 @@ class QueueWorker : QueueWrapper {
             } finally {
               Log.debug("acknowledging job message {}", msg.envelope.deliveryTag)
               basicAck(msg.envelope.deliveryTag, false)
-              defaultConsumer
             }
           }
 
