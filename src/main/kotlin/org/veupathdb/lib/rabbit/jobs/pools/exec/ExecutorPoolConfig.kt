@@ -1,6 +1,7 @@
 package org.veupathdb.lib.rabbit.jobs.pools.exec
 
 import org.veupathdb.lib.rabbit.jobs.config.ExecutorFailureEnforcer
+import org.veupathdb.lib.rabbit.jobs.model.JobDispatch
 import org.veupathdb.lib.rabbit.jobs.pools.JobHandlers
 import java.util.concurrent.ThreadFactory
 import kotlin.time.Duration
@@ -60,4 +61,9 @@ internal data class ExecutorPoolConfig(
    * pool failure.
    */
   val shutdownCB: () -> Unit,
+
+  /**
+   * On job timeout callback.
+   */
+  val timeoutCB: (JobDispatch) -> Unit,
 )

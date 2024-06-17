@@ -170,7 +170,8 @@ internal class JobQueueExecutorPool(private val config: ExecutorPoolConfig) {
       channel = config.channelProvider(),
       handlers = config.handlers,
       jobTimeout = config.maxJobTime,
-      submitJobFn = threads::submit
+      submitJobFn = threads::submit,
+      timeoutFn = config.timeoutCB,
     )
   }
 

@@ -1,5 +1,6 @@
 package org.veupathdb.lib.rabbit.jobs.config
 
+import org.veupathdb.lib.rabbit.jobs.model.JobDispatch
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -22,6 +23,12 @@ class ExecutorConfig {
    * If a job exceeds this time it will be forceably terminated.
    */
   var maxJobExecutionTime: Duration = 15.minutes
+
+  /**
+   * Callback that will be executed for every job that is killed for exceeding
+   * the configured [maxJobExecutionTime] value.
+   */
+  var jobTimeoutCallback: (JobDispatch) -> Unit = {}
 
   /**
    * Failure policy defining the circumstances in which the target

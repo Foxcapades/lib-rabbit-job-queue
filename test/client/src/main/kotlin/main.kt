@@ -10,9 +10,12 @@ fun main() {
   Thread.sleep(10_000)
 
   val conFac = JobQueueExecutor {
-    executorFailurePolicy = ExecutorFailurePolicy.maxTotalFailures(1)
-    workers = 1
-    maxJobExecutionTime = 15.seconds
+    executor {
+      failurePolicy = ExecutorFailurePolicy.maxTotalFailures(1)
+      workers = 1
+      maxJobExecutionTime = 15.seconds
+      jobTimeoutCallback = { println(it.body) }
+    }
   }
 
   conFac.onJob {

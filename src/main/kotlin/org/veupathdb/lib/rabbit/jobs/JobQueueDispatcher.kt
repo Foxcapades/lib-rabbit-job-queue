@@ -29,12 +29,12 @@ class JobQueueDispatcher : QueueWrapper {
   private val workers: ExecutorService
 
   constructor(config: QueueConfig): super(config) {
-    workers = Executors.newFixedThreadPool(config.workers)
+    workers = Executors.newFixedThreadPool(config.executor.workers)
     initCallbacks()
   }
 
   constructor(action: QueueConfig.() -> Unit): super(action) {
-    workers = Executors.newFixedThreadPool(config.workers)
+    workers = Executors.newFixedThreadPool(config.executor.workers)
     initCallbacks()
   }
 

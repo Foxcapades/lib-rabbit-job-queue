@@ -2,11 +2,6 @@ package org.veupathdb.lib.rabbit.jobs.config
 
 import kotlin.time.Duration
 
-enum class ExecutorFailureResponse {
-  GracefulStop,
-  ImmediateStop,
-}
-
 /**
  * Defines a policy that itself defines the state or point at which an executor
  * should be considered "failed" and shut down.

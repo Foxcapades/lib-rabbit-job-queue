@@ -96,7 +96,7 @@ sealed class QueueWrapper {
       /* exclusive = */  false,
       /* autoDelete = */ false,
       /* arguments = */  mapOf(
-        "x-consumer-timeout" to (config.executorConfig.maxJobExecutionTime * 1.5).inWholeMilliseconds
+        "x-consumer-timeout" to (config.executor.maxJobExecutionTime * 1.5).inWholeMilliseconds
       ),
     )
   }
@@ -153,10 +153,10 @@ sealed class QueueWrapper {
    * @param config Caller initialized RabbitMQ configuration properties.
    */
   private fun configure(config: QueueConfig) {
-    factory.host              = config.hostname
-    factory.username          = config.username
-    factory.password          = config.password
-    factory.port              = config.hostPort
-    factory.connectionTimeout = config.timeout.inWholeMilliseconds.toInt()
+    factory.host              = config.connection.hostname
+    factory.username          = config.connection.username
+    factory.password          = config.connection.password
+    factory.port              = config.connection.hostPort
+    factory.connectionTimeout = config.connection.timeout.inWholeMilliseconds.toInt()
   }
 }

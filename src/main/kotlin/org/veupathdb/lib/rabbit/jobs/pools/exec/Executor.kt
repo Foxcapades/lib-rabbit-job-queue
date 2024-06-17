@@ -51,7 +51,9 @@ internal class Executor(
   /**
    * Callback used to submit jobs to a worker pool.
    */
-  private val submitJobFn: (Runnable) -> Future<*>
+  private val submitJobFn: (Runnable) -> Future<*>,
+
+  private val timeoutFn: (JobDispatch) -> Unit,
 ) {
   private val log = LoggerFactory.getLogger(javaClass)
 
@@ -71,18 +73,20 @@ internal class Executor(
 
         log.debug("consumer '{}' executing job for message {}", id, msg.envelope.deliveryTag)
 
-        val fut = submitJobFn { handlers.execute(JobDispatch.fromJson(Json.from(msg.body))) }
+        val dispatch = JobDispatch.fromJson(Json.from(msg.body))
+        val future = submitJobFn { handlers.execute(dispatch) }
 
         // Wait for {jobTimeout} at most before killing the job and
         // acknowledging the message
         try {
-          fut.get(jobTimeout.inWholeSeconds, TimeUnit.SECONDS)
+          future.get(jobTimeout.inWholeSeconds, TimeUnit.SECONDS)
           log.debug("acknowledging job message {}", msg.envelope.deliveryTag)
           channel.basicAck(msg.envelope.deliveryTag, false)
         } catch (e: TimeoutException) {
           log.warn("consumer '{}' killing job for message {} for taking longer than {}", id, msg.envelope.deliveryTag, jobTimeout)
-          fut.cancel(true)
-          channel.basicAck(msg.envelope.deliveryTag, false)
+          swallow { future.cancel(true) }
+          swallow { channel.basicAck(msg.envelope.deliveryTag, false) }
+          swallow { timeoutFn(dispatch) }
         }
       },
       { },
@@ -93,5 +97,14 @@ internal class Executor(
   fun stop() {
     log.debug("closing channel for consumer {}", id)
     try { channel.close() } catch (e: Throwable) { /* do nothing */ }
+  }
+
+  private fun swallow(log: Boolean = true, fn: () -> Unit) {
+    try {
+      fn()
+    } catch (e: Throwable) {
+      if (log)
+        this.log.warn("caught exception:", e)
+    }
   }
 }

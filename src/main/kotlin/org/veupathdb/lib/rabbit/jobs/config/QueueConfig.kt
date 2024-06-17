@@ -1,18 +1,14 @@
 package org.veupathdb.lib.rabbit.jobs.config
 
-import kotlin.time.Duration
-
 /**
  * RabbitMQ Queue Configuration
  */
 class QueueConfig {
 
-  // region Connection
-
   /**
    * RabbitMQ connection configuration.
    */
-  var connectionConfig: ConnectionConfig = ConnectionConfig()
+  var connection: ConnectionConfig = ConnectionConfig()
 
   /**
    * RabbitMQ connection configuration.
@@ -21,105 +17,17 @@ class QueueConfig {
    *
    * @return This configuration.
    */
-  fun connectionConfig(connectionConfig: ConnectionConfig) = also { it.connectionConfig = connectionConfig }
+  fun connection(connectionConfig: ConnectionConfig) = also { it.connection = connectionConfig }
 
   /**
-   * Executes the given function on the current [connectionConfig] value.
+   * Executes the given function on the current [connection] value.
    *
-   * @param fn Function to execute on the current [connectionConfig] value.
+   * @param fn Function to execute on the current [connection] value.
    *
    * @return This configuration.
    */
-  inline fun connectionConfig(fn: ConnectionConfig.() -> Unit) = also { it.connectionConfig.fn() }
+  inline fun connection(fn: ConnectionConfig.() -> Unit) = also { it.connection.fn() }
 
-
-  /**
-   * See [ConnectionConfig.hostname].
-   */
-  inline var hostname
-    get() = connectionConfig.hostname
-    set(value) { connectionConfig.hostname = value }
-
-  /**
-   * See [ConnectionConfig.hostname].
-   *
-   * @param host RabbitMQ hostname.
-   *
-   * @return This configuration.
-   */
-  fun hostname(host: String) = apply { connectionConfig.hostname = host }
-
-
-  /**
-   * See [ConnectionConfig.username].
-   */
-  inline var username
-    get() = connectionConfig.username
-    set(value) { connectionConfig.username = value }
-
-  /**
-   * See [ConnectionConfig.username].
-   *
-   * @param user RabbitMQ username.
-   *
-   * @return This configuration.
-   */
-  fun username(user: String) = apply { connectionConfig.username = user }
-
-
-  /**
-   * See [ConnectionConfig.password].
-   */
-  inline var password
-    get() = connectionConfig.password
-    set(value) { connectionConfig.password = value }
-
-  /**
-   * See [ConnectionConfig.password].
-   *
-   * @param pass RabbitMQ password.
-   *
-   * @return This configuration.
-   */
-  fun password(pass: String) = apply { connectionConfig.password = pass }
-
-
-  /**
-   * See [ConnectionConfig.hostPort].
-   */
-  inline var hostPort
-    get() = connectionConfig.hostPort
-    set(value) { connectionConfig.hostPort = value }
-
-  /**
-   * See [ConnectionConfig.hostPort].
-   *
-   * See [ConnectionConfig.hostPort].
-   *
-   * @return This configuration.
-   */
-  fun hostPort(port: Int) = apply { connectionConfig.hostPort = port }
-
-
-  /**
-   * See [ConnectionConfig.timeout].
-   */
-  inline var timeout
-    get() = connectionConfig.timeout
-    set(value) { connectionConfig.timeout = value }
-
-  /**
-   * See [ConnectionConfig.timeout].
-   *
-   * @param time Connection timeout.
-   *
-   * @return This configuration.
-   */
-  fun timeout(time: Duration) = apply { connectionConfig.timeout = time }
-
-  // endregion Connection
-
-  // region Queue Names
 
   /**
    * Job Dispatch Queue Name
@@ -165,66 +73,10 @@ class QueueConfig {
    */
   fun successQueueName(name: String) = apply { successQueueName = name }
 
-  // endregion Queue Names
 
-  // region Executor
+  var executor: ExecutorConfig = ExecutorConfig()
 
-  var executorConfig: ExecutorConfig = ExecutorConfig()
+  fun executor(executorConfig: ExecutorConfig) = also { it.executor = executorConfig }
 
-  fun executorConfig(executorConfig: ExecutorConfig) = also { it.executorConfig = executorConfig }
-
-  inline fun executorConfig(fn: ExecutorConfig.() -> Unit) = also { it.executorConfig.fn() }
-
-
-  /**
-   * See [ExecutorConfig.workers].
-   */
-  inline var workers
-    get() = executorConfig.workers
-    set(value) { executorConfig.workers = value }
-
-  /**
-   * See [ExecutorConfig.workers].
-   *
-   * @param value Number of workers
-   *
-   * @return This configuration.
-   */
-  fun workers(value: Int) = apply { executorConfig.workers = value }
-
-
-  /**
-   * See [ExecutorConfig.maxJobExecutionTime].
-   */
-  inline var maxJobExecutionTime
-    get() = executorConfig.maxJobExecutionTime
-    set(value) { executorConfig.maxJobExecutionTime = value }
-
-  /**
-   * See [ExecutorConfig.maxJobExecutionTime].
-   *
-   * @param duration Max duration a job will be permitted to run for.
-   *
-   * @return This configuration.
-   */
-  fun maxJobExecutionTime(duration: Duration) = apply { executorConfig.maxJobExecutionTime = duration }
-
-
-  /**
-   * See [ExecutorConfig.failurePolicy].
-   */
-  inline var executorFailurePolicy
-    get() = executorConfig.failurePolicy
-    set(value) { executorConfig.failurePolicy = value }
-
-  /**
-   * See [ExecutorConfig.failurePolicy].
-   *
-   * @param policy Failure policy to use.
-   *
-   * @return This configuration.
-   */
-  fun executorFailurePolicy(policy: ExecutorFailurePolicy) = apply { executorConfig.failurePolicy = policy }
-
-  // endregion Executor
+  inline fun executor(fn: ExecutorConfig.() -> Unit) = also { it.executor.fn() }
 }

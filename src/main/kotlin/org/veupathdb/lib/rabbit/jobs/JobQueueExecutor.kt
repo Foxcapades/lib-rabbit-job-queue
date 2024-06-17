@@ -30,11 +30,12 @@ class JobQueueExecutor : QueueWrapper {
       channelProvider = ::dispatchQueue,
       queueName = config.jobQueueName,
       handlers = handlers,
-      poolSize = config.workers,
-      maxJobTime = config.maxJobExecutionTime,
+      poolSize = config.executor.workers,
+      maxJobTime = config.executor.maxJobExecutionTime,
       threadFactory = null,
-      failureChecker = config.executorConfig.getOrCreateFailureEnforcer(),
+      failureChecker = config.executor.getOrCreateFailureEnforcer(),
       shutdownCB = ::abort,
+      timeoutCB = config.executor.jobTimeoutCallback,
     ))
 
     executorPool.start()
@@ -51,11 +52,12 @@ class JobQueueExecutor : QueueWrapper {
       channelProvider = ::dispatchQueue,
       queueName = config.jobQueueName,
       handlers = handlers,
-      poolSize = config.workers,
-      maxJobTime = config.maxJobExecutionTime,
+      poolSize = config.executor.workers,
+      maxJobTime = config.executor.maxJobExecutionTime,
       threadFactory = null,
-      failureChecker = config.executorConfig.getOrCreateFailureEnforcer(),
+      failureChecker = config.executor.getOrCreateFailureEnforcer(),
       shutdownCB = ::abort,
+      timeoutCB = config.executor.jobTimeoutCallback,
     ))
 
     executorPool.start()
