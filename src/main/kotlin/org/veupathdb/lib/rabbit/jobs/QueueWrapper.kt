@@ -3,10 +3,9 @@ package org.veupathdb.lib.rabbit.jobs
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
+import org.veupathdb.lib.rabbit.jobs.config.QueueConfig
 import org.veupathdb.lib.rabbit.jobs.serialization.JsonSerializable
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 /**
  * Base implementation of a queue worker or dispatcher.
@@ -17,22 +16,12 @@ sealed class QueueWrapper {
    */
   private val factory = ConnectionFactory()
 
-  protected val workers: ExecutorService
+  protected val config: QueueConfig
 
   /**
    * Open RabbitMQ Connection
-   *
-   * Connection will be refreshed if it has closed since last access.
    */
-  protected var connection: Connection
-    get() {
-      if (!field.isOpen) {
-        field = factory.newConnection()
-      }
-
-      return field
-    }
-    private set
+  protected val connection: Connection
 
   /**
    * Job Dispatch Queue Name
@@ -55,16 +44,14 @@ sealed class QueueWrapper {
    * @param config Queue configuration used to configure this [QueueWrapper].
    */
   constructor(config: QueueConfig) {
+    this.config = config
     configure(config)
+
     connection = factory.newConnection()
-    workers    = Executors.newFixedThreadPool(config.workers)
 
     dispatchQueueName = config.jobQueueName
     errorQueueName    = config.errorQueueName
     successQueueName  = config.successQueueName
-
-    @Suppress("LeakingThis")
-    initCallbacks()
   }
 
   /**
@@ -74,18 +61,14 @@ sealed class QueueWrapper {
    * configure this [QueueWrapper].
    */
   constructor(action: QueueConfig.() -> Unit) {
-    val tmp = QueueConfig()
-    tmp.action()
-    configure(tmp)
+    config = QueueConfig()
+    config.action()
+    configure(config)
     connection = factory.newConnection()
-    workers    = Executors.newFixedThreadPool(tmp.workers)
 
-    dispatchQueueName = tmp.jobQueueName
-    errorQueueName    = tmp.errorQueueName
-    successQueueName  = tmp.successQueueName
-
-    @Suppress("LeakingThis")
-    initCallbacks()
+    dispatchQueueName = config.jobQueueName
+    errorQueueName    = config.errorQueueName
+    successQueueName  = config.successQueueName
   }
 
   /**
@@ -107,14 +90,18 @@ sealed class QueueWrapper {
    * Initializes the job dispatch queue if it is not already initialized.
    */
   protected open fun Channel.initDispatchQueue() {
-    queueDeclare(dispatchQueueName, true, false, false, emptyMap())
+    queueDeclare(
+      /* queue = */      dispatchQueueName,
+      /* durable = */    true,
+      /* exclusive = */  false,
+      /* autoDelete = */ false,
+      /* arguments = */  mapOf(
+        "x-consumer-timeout" to (config.executorConfig.maxJobExecutionTime * 1.5).inWholeMilliseconds
+      ),
+    )
   }
 
-  /**
-   * Internal inline channel usage.
-   */
-  protected inline fun withChannel(action: Channel.() -> Unit) =
-    with(connection.createChannel()) { action() }
+  protected fun dispatchQueue(): Channel = connection.createChannel().also { it.initDispatchQueue() }
 
   /**
    * Executes the given action against the job dispatch queue in a thread safe
@@ -122,11 +109,9 @@ sealed class QueueWrapper {
    *
    * @param action Action to execute against the job dispatch queue.
    */
-  protected inline fun withDispatchQueue(action: Channel.() -> Unit) =
-    withChannel {
-      initDispatchQueue()
-      action()
-    }
+  protected inline fun withDispatchQueue(action: Channel.() -> Unit) = dispatchQueue().let(action)
+
+  protected fun errorQueue(): Channel = connection.createChannel().also { it.initErrorQueue() }
 
   /**
    * Executes the give action against the error notification queue in a thread
@@ -134,11 +119,9 @@ sealed class QueueWrapper {
    *
    * @param action Action to execute against the error notification queue.
    */
-  protected inline fun withErrorQueue(action: Channel.() -> Unit) =
-    withChannel {
-      initErrorQueue()
-      action()
-    }
+  protected inline fun withErrorQueue(action: Channel.() -> Unit) = errorQueue().let(action)
+
+  protected fun successQueue(): Channel = connection.createChannel().also { it.initSuccessQueue() }
 
   /**
    * Executes the given action against the success notification queue in a
@@ -146,11 +129,7 @@ sealed class QueueWrapper {
    *
    * @param action Action to execute
    */
-  protected inline fun withSuccessQueue(action: Channel.() -> Unit) =
-    withChannel {
-      initSuccessQueue()
-      action()
-    }
+  protected inline fun withSuccessQueue(action: Channel.() -> Unit) = successQueue().let(action)
 
   /**
    * Publishes a message to the given [Channel].
@@ -168,11 +147,6 @@ sealed class QueueWrapper {
   }
 
   /**
-   * Initialize queue callbacks.
-   */
-  protected abstract fun initCallbacks()
-
-  /**
    * Configures the RabbitMQ [ConnectionFactory] based on the settings in the
    * given [QueueConfig].
    *
@@ -183,6 +157,6 @@ sealed class QueueWrapper {
     factory.username          = config.username
     factory.password          = config.password
     factory.port              = config.hostPort
-    factory.connectionTimeout = config.timeout
+    factory.connectionTimeout = config.timeout.inWholeMilliseconds.toInt()
   }
 }

@@ -1,30 +1,44 @@
 package org.veupathdb.lib.rabbit.jobs
 
-import com.rabbitmq.client.CancelCallback
-import com.rabbitmq.client.DeliverCallback
 import org.slf4j.LoggerFactory
+import org.veupathdb.lib.rabbit.jobs.config.QueueConfig
 import org.veupathdb.lib.rabbit.jobs.fn.JobHandler
 import org.veupathdb.lib.rabbit.jobs.model.ErrorNotification
-import org.veupathdb.lib.rabbit.jobs.model.JobDispatch
 import org.veupathdb.lib.rabbit.jobs.model.SuccessNotification
+import org.veupathdb.lib.rabbit.jobs.pools.exec.ExecutorPoolConfig
 import org.veupathdb.lib.rabbit.jobs.pools.JobHandlers
-import org.veupathdb.lib.rabbit.jobs.serialization.Json
+import org.veupathdb.lib.rabbit.jobs.pools.exec.JobQueueExecutorPool
 
 /**
- * Job executor end of the job queue.
+ * Job execution end of the job queue.
  */
-class QueueWorker : QueueWrapper {
+class JobQueueExecutor : QueueWrapper {
 
   private val Log = LoggerFactory.getLogger(javaClass)
 
   private val handlers = JobHandlers()
+
+  private val executorPool: JobQueueExecutorPool
 
   /**
    * Instantiates a new QueueWorker based on the given configuration.
    *
    * @param config Configuration for the RabbitMQ connections.
    */
-  constructor(config: QueueConfig): super(config)
+  constructor(config: QueueConfig): super(config) {
+    executorPool = JobQueueExecutorPool(ExecutorPoolConfig(
+      channelProvider = ::dispatchQueue,
+      queueName = config.jobQueueName,
+      handlers = handlers,
+      poolSize = config.workers,
+      maxJobTime = config.maxJobExecutionTime,
+      threadFactory = null,
+      failureChecker = config.executorConfig.getOrCreateFailureEnforcer(),
+      shutdownCB = ::abort,
+    ))
+
+    executorPool.start()
+  }
 
   /**
    * Instantiates a new QueueWorker using the given action to configure the
@@ -32,7 +46,20 @@ class QueueWorker : QueueWrapper {
    *
    * @param action Action used to configure the RabbitMQ connections.
    */
-  constructor(action: QueueConfig.() -> Unit): super(action)
+  constructor(action: QueueConfig.() -> Unit): super(action) {
+    executorPool = JobQueueExecutorPool(ExecutorPoolConfig(
+      channelProvider = ::dispatchQueue,
+      queueName = config.jobQueueName,
+      handlers = handlers,
+      poolSize = config.workers,
+      maxJobTime = config.maxJobExecutionTime,
+      threadFactory = null,
+      failureChecker = config.executorConfig.getOrCreateFailureEnforcer(),
+      shutdownCB = ::abort,
+    ))
+
+    executorPool.start()
+  }
 
   /**
    * Registers a callback to be executed when a new job is submitted to the
@@ -67,27 +94,12 @@ class QueueWorker : QueueWrapper {
     withSuccessQueue { publish(successQueueName, msg) }
   }
 
-  /**
-   * Initializes the job queue callback.
-   */
-  override fun initCallbacks() {
-    withDispatchQueue {
-      basicConsume(
-        dispatchQueueName,
-        false,
-        DeliverCallback { _, msg ->
-          Log.debug("handling job message {}", msg.envelope.deliveryTag)
-          workers.execute {
-            try {
-              handlers.execute(JobDispatch.fromJson(Json.from(msg.body)))
-            } finally {
-              Log.debug("acknowledging job message {}", msg.envelope.deliveryTag)
-              basicAck(msg.envelope.deliveryTag, false)
-            }
-          }
-        },
-        CancelCallback { }
-      )
-    }
+  fun shutdown(blocking: Boolean = true) {
+    executorPool.stop(blocking)
+  }
+
+  private fun abort() {
+    Log.info("closing connection to RabbitMQ")
+    connection.abort()
   }
 }
