@@ -87,3 +87,13 @@ dispatch.dispatch(JobDispatch(
   body
 ))
 ----
+
+== Warnings / Caveats
+
+Message Ack Timeouts::
+RabbitMQ allows channels to be configured with their own timeout values, however
+these values cannot exceed the `consumer_timeout` value set in `rabbitmq.conf`
+file.  By default, the `consumer_timeout` value is undefined, meaning channels
+can specify any timeout they choose, but care must be taken if configuring the
+RabbitMQ global `consumer_timeout` to ensure that any channel specific timeouts
+are shorter than the global value.
