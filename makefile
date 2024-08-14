@@ -7,7 +7,7 @@ end-to-end:
 	@docker compose -f test/docker-compose.yml build \
 		--build-arg=GITHUB_USERNAME=$(shell grep 'gpr.user' ~/.gradle/gradle.properties | cut -d= -f2) \
 		--build-arg=GITHUB_TOKEN=$(shell grep 'gpr.key' ~/.gradle/gradle.properties | cut -d= -f2)
-	@docker compose -f test/docker-compose.yml up --no-attach rabbit
+	@docker compose -f test/docker-compose.yml up
 
 .PHONY: kill-tests
 kill-tests:

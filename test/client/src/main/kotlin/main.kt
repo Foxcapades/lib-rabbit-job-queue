@@ -3,7 +3,7 @@
 import org.veupathdb.lib.rabbit.jobs.JobQueueExecutor
 import org.veupathdb.lib.rabbit.jobs.config.ExecutorFailurePolicy
 import org.veupathdb.lib.rabbit.jobs.model.SuccessNotification
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 
 fun main() {
   println("Sleeping for 10 seconds...")
@@ -13,7 +13,7 @@ fun main() {
     executor {
       failurePolicy = ExecutorFailurePolicy.maxTotalFailures(1)
       workers = 1
-      maxJobExecutionTime = 15.seconds
+      maxJobExecutionTime = 35.minutes
       jobTimeoutCallback = { println(it.body) }
     }
   }
@@ -21,7 +21,7 @@ fun main() {
   conFac.onJob {
     println("Server said: $it")
 
-    Thread.sleep(20.seconds.inWholeMilliseconds)
+    Thread.sleep(40.minutes.inWholeMilliseconds)
 
     conFac.sendSuccess(SuccessNotification(it.jobID))
   }
