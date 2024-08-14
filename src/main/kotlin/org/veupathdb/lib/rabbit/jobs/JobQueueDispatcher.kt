@@ -3,6 +3,7 @@ package org.veupathdb.lib.rabbit.jobs
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.DeliverCallback
 import org.slf4j.LoggerFactory
+import org.veupathdb.lib.rabbit.jobs.config.QueueConfig
 import org.veupathdb.lib.rabbit.jobs.fn.ErrorHandler
 import org.veupathdb.lib.rabbit.jobs.fn.SuccessHandler
 import org.veupathdb.lib.rabbit.jobs.model.ErrorNotification
@@ -11,11 +12,13 @@ import org.veupathdb.lib.rabbit.jobs.model.SuccessNotification
 import org.veupathdb.lib.rabbit.jobs.pools.ErrorHandlers
 import org.veupathdb.lib.rabbit.jobs.pools.SuccessHandlers
 import org.veupathdb.lib.rabbit.jobs.serialization.Json
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * Job dispatcher.
  */
-class QueueDispatcher : QueueWrapper {
+class JobQueueDispatcher : QueueWrapper {
 
   private val Log = LoggerFactory.getLogger(javaClass)
 
@@ -23,9 +26,17 @@ class QueueDispatcher : QueueWrapper {
 
   private val successHandlers = SuccessHandlers()
 
-  constructor(config: QueueConfig): super(config)
+  private val workers: ExecutorService
 
-  constructor(action: QueueConfig.() -> Unit): super(action)
+  constructor(config: QueueConfig): super(config) {
+    workers = Executors.newFixedThreadPool(config.executor.workers)
+    initCallbacks()
+  }
+
+  constructor(action: QueueConfig.() -> Unit): super(action) {
+    workers = Executors.newFixedThreadPool(config.executor.workers)
+    initCallbacks()
+  }
 
   /**
    * Registers a callback to be executed on job success notification.
@@ -57,7 +68,7 @@ class QueueDispatcher : QueueWrapper {
     withDispatchQueue { publish(dispatchQueueName, job) }
   }
 
-  override fun initCallbacks() {
+  private fun initCallbacks() {
     withErrorQueue {
       basicConsume(
         errorQueueName,

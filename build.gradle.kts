@@ -4,12 +4,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.20"
-  id("org.jetbrains.dokka") version "1.9.10"
+  kotlin("jvm") version "1.9.23"
+  id("org.jetbrains.dokka") version "1.9.20"
 }
 
 group = "org.veupathdb.lib"
-version = "1.3.0"
+version = "2.0.0"
 
 repositories {
   mavenCentral()
