@@ -131,7 +131,7 @@ internal class JobQueueExecutorPool(private val config: ExecutorPoolConfig) {
     silently(config.shutdownCB)
 
     if (block)
-      threads.awaitTermination(243256, TimeUnit.DAYS)
+      threads.awaitTermination(243256, TimeUnit.DAYS) // basically just wait indefinitely
 
     return StopCode.Forced
   }
