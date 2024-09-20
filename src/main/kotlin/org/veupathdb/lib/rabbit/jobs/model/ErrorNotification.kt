@@ -37,7 +37,7 @@ data class ErrorNotification @JvmOverloads constructor(
       put(JsonKey.Code, code)
       put(JsonKey.Message, message)
       put(JsonKey.AttemptCount, attemptCount)
-      putPOJO(JsonKey.Body, body)
+      put(JsonKey.Body, body)
     }
 
   override fun toString() =
@@ -59,8 +59,6 @@ data class ErrorNotification @JvmOverloads constructor(
         throw IllegalStateException("Error notification has a null ${JsonKey.JobID} field!")
       if (json.get(JsonKey.Code).isNull)
         throw IllegalStateException("Error notification has a null ${JsonKey.Code} field!")
-      if (json.get(JsonKey.Body).isNull)
-        throw IllegalStateException("Error notification has a null ${JsonKey.Body} field!")
       if (json.get(JsonKey.AttemptCount).isNull)
         throw IllegalStateException("Error notification has a null ${JsonKey.AttemptCount} field!")
 

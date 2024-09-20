@@ -2,14 +2,13 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.23"
+  kotlin("jvm") version "2.0.20"
   id("org.jetbrains.dokka") version "1.9.20"
 }
 
 group = "org.veupathdb.lib"
-version = "2.0.0"
+version = "2.0.1"
 
 repositories {
   mavenCentral()
@@ -28,22 +27,16 @@ dependencies {
   implementation(kotlin("stdlib-jdk8"))
 
   implementation("org.slf4j:slf4j-api:1.7.36")
-
-  // Jackson and modules (gotta catch em all)
-  implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.15.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.3")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.3")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
-  implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.3")
-
-  api("org.veupathdb.lib:hash-id:1.1.0")
   implementation("com.rabbitmq:amqp-client:5.20.0")
+
+  api("org.veupathdb.lib:jackson-singleton:3.2.0")
+  api("org.veupathdb.lib:hash-id:1.1.0")
 }
 
 kotlin {
   jvmToolchain {
-    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.AMAZON
   }
 }
 
@@ -52,24 +45,15 @@ java {
   withSourcesJar()
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    jvmTarget = "17"
-    freeCompilerArgs = listOf("-Xjvm-default=all")
-  }
-}
-
 tasks.register<Copy>("getDeps") {
   from(sourceSets["main"].runtimeClasspath)
   into("runtime/")
 }
 
 tasks.withType<DokkaTask>().configureEach {
-
-
   dokkaSourceSets.configureEach {
     includeNonPublic.set(false)
-    jdkVersion.set(17)
+    jdkVersion.set(21)
   }
 }
 
