@@ -10,7 +10,7 @@ Client/server library for utilizing RabbitMQ as a job queue.
 .Gradle
 [source, kotlin]
 ----
-  implementation("org.veupathdb.lib:rabbit-job-queue:2.0.0")
+  implementation("org.veupathdb.lib:rabbit-job-queue:2.0.1")
 ----
 
 === Worker / Client
